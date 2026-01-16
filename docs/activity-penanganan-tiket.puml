@@ -1,0 +1,39 @@
+@startuml
+title Activity Diagram Proses Penanganan Tiket
+
+|'Team Expert'|
+start
+:Meninjau tiket baru\n(status = "open");
+if (Perlu ubah kategori/prioritas?) then (Ya)
+  :Mengubah kategori / prioritas;
+  |Sistem|
+  :Menyimpan perubahan tiket;
+  :'Update' data kategori/prioritas;
+  |'Team Expert'|
+endif
+:Menandai tiket siap ditangani Tim Teknis;
+
+|Sistem|
+:Menampilkan tiket pada daftar\nopen/in_progress untuk Tim Teknis;
+
+|'Tim Teknis'|
+:Melihat daftar tiket open/in_progress;
+repeat
+  :Memilih tiket untuk ditangani;
+  :Menganalisis masalah;
+  :Menambahkan catatan progres\n(ticket_activity);
+  |Sistem|
+  :Menyimpan ticket_activity;
+  :Mengubah status tiket\n(open / in_progress / for_review);
+  |'Tim Teknis'|
+  if (Solusi sudah diterapkan\n dan dikonfirmasi?) then (Ya)
+    |Sistem|
+    :Mengubah status tiket menjadi "closed";
+    :Mencatat waktu penutupan\n(closed_at, jika digunakan);
+    stop
+  else (Belum)
+    :Melanjutkan penanganan tiket;
+  endif
+repeat while (Masih perlu penanganan lanjutan?) is (Ya)
+
+@enduml

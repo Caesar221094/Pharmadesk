@@ -1,0 +1,27 @@
+@startuml
+title Activity Diagram Proses Pembuatan Tiket
+
+|"Pengguna (Team Expert/Admin)"|
+start
+:Login ke sistem;
+:Memilih menu "Pembuatan Tiket";
+:Mengisi data tiket\n(apotek, modul, kategori, judul,\n deskripsi, versi aplikasi, prioritas, sumber);
+:Kirim form pembuatan tiket;
+
+|Sistem|
+:Validasi data tiket;
+if (Data valid?) then (Ya)
+  :Menyimpan tiket baru;
+  :Set status = "open";
+  :Set opened_at = waktu sekarang;
+  :Menampilkan notifikasi sukses\n dan detail tiket;
+  stop
+else (Tidak)
+  :Menampilkan pesan error validasi;
+  |"Pengguna (Team Expert/Admin)"|
+  :Memperbaiki data tiket;
+  :Kirim ulang form;
+  -[#gray]-> Sistem;
+endif
+
+@enduml

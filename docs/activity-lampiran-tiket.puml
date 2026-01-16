@@ -1,0 +1,23 @@
+@startuml
+title Activity Diagram Proses Penambahan Lampiran Tiket
+
+|Pengguna|
+start
+:Memilih tiket tertentu;
+:Memilih menu "Tambah Lampiran";
+:Memilih / mengunggah file\n(screenshot, log error, dll.);
+
+|Sistem|
+:Validasi file\n(tipe, ukuran, dll.);
+if (File valid?) then (Ya)
+  :Menyimpan file ke storage\n(misalnya storage/app/...);
+  :Mencatat metadata lampiran ke\n tabel ticket_attachments\n(ticket_id, nama_file, path, tipe, ukuran,\n uploaded_by, uploaded_at, dll.);
+  :Menampilkan notifikasi sukses\n dan daftar lampiran terkini;
+  stop
+else (Tidak)
+  :Menampilkan pesan error validasi;
+  |Pengguna|
+  :Memilih file lain / membatalkan;
+endif
+
+@enduml
